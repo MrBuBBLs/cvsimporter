@@ -1,5 +1,5 @@
 --- /usr/lib/git-core/git-cvsimport.dist	2015-01-14 04:46:33.000000000 +0900
-+++ /usr/lib/git-core/git-cvsimport	2015-07-26 15:01:00.229917604 +0900
++++ /usr/lib/git-core/git-cvsimport	2015-07-26 20:40:32.150912718 +0900
 @@ -28,6 +28,8 @@
  use POSIX qw(strftime tzset dup2 ENOENT);
  use IPC::Open2;
@@ -16,7 +16,7 @@
 +sub my_guess_encoding {
 +	my $old = shift;
 +
-+	my $enc = guess_encoding($old, qw/euc-jp 7bit-jis/);
++	my $enc = guess_encoding($old, qw/euc-jp shiftjis 7bit-jis/);
 +	if (ref($enc)) {
 +		return $enc;
 +	} else {
