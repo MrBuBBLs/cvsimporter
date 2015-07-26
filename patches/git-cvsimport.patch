@@ -1,0 +1,62 @@
+--- /usr/lib/git-core/git-cvsimport.dist	2015-01-14 04:46:33.000000000 +0900
++++ /usr/lib/git-core/git-cvsimport	2015-07-26 15:01:00.229917604 +0900
+@@ -28,6 +28,8 @@
+ use POSIX qw(strftime tzset dup2 ENOENT);
+ use IPC::Open2;
+ use Git qw(get_tz_offset);
++use Encode;
++use Encode::Guess;
+ 
+ $SIG{'PIPE'}="IGNORE";
+ set_timezone('UTC');
+@@ -48,6 +50,28 @@
+ 	exit(1);
+ }
+ 
++sub my_guess_encoding {
++	my $old = shift;
++
++	my $enc = guess_encoding($old, qw/euc-jp 7bit-jis/);
++	if (ref($enc)) {
++		return $enc;
++	} else {
++		return guess_encoding($old);
++	}
++}
++
++sub convert_encoding {
++	my $old = shift;
++
++	my $enc = my_guess_encoding($old, qw/euc-jp 7bit-jis/);
++	if (ref($enc)) {
++		return encode('utf8', $enc->decode($old));
++	} else {
++		return encode('utf8', decode('euc-jp', $old));
++	}
++}
++
+ sub read_author_info($) {
+ 	my ($file) = @_;
+ 	my $user;
+@@ -791,6 +815,11 @@
+ sub update_index (\@\@) {
+ 	my $old = shift;
+ 	my $new = shift;
++
++        # file name
++        $_ = convert_encoding($_) for @$old;
++        $_->[2] = convert_encoding($_->[2]) for @$new;
++
+ 	open(my $fh, '|-', qw(git update-index -z --index-info))
+ 		or die "unable to open git update-index: $!";
+ 	print $fh
+@@ -883,6 +912,9 @@
+ 	substr($logmsg,32767) = "" if length($logmsg) > 32767;
+ 	$logmsg =~ s/[\s\n]+\z//;
+ 
++        # commit log
++        $logmsg = convert_encoding($logmsg);
++
+ 	if (@skipped) {
+ 	    $logmsg .= "\n\n\nSKIPPED:\n\t";
+ 	    $logmsg .= join("\n\t", @skipped) . "\n";
