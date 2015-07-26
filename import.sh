@@ -20,3 +20,5 @@ cvsps -q -u --cvs-direct --root $CVS_ROOT $CVS_MODULE 2>/dev/null | grep '^Autho
 git cvsimport -v -i -R -A $AUTHORS_FILE -d $CVS_ROOT -C $ROOT_DIR/$CVS_MODULE $CVS_MODULE 2>&1 | tee $LOG_FILE
 
 gzip $LOG_FILE
+
+git --git-dir=$ROOT_DIR/$CVS_MODULE/.git push --mirror origin
