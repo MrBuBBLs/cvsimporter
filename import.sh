@@ -77,7 +77,7 @@ import() {
     fi
 
     log_info "Pushing to remote for $CVS_MODULE ..."
-    git --git-dir=$ROOT_DIR/$CVS_MODULE/.git push --mirror origin
+    git --git-dir=$ROOT_DIR/$CVS_MODULE/.git --work-tree=$ROOT_DIR/$CVS_MODULE push --mirror origin
     if [ $retval -eq 0 ]; then
         log_info "Pushed to remote for $CVS_MODULE"
     else
