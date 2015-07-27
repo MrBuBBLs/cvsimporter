@@ -1,5 +1,5 @@
---- /usr/lib/git-core/git-cvsimport.dist	2015-01-14 04:46:33.000000000 +0900
-+++ /usr/lib/git-core/git-cvsimport	2015-07-26 20:40:32.150912718 +0900
+--- /usr/lib/git-core/git-cvsimport	2015-01-14 04:46:33.000000000 +0900
++++ /usr/lib/git-core/git-cvsimport.orca	2015-07-28 06:10:17.105526492 +0900
 @@ -28,6 +28,8 @@
  use POSIX qw(strftime tzset dup2 ENOENT);
  use IPC::Open2;
@@ -60,3 +60,22 @@
  	if (@skipped) {
  	    $logmsg .= "\n\n\nSKIPPED:\n\t";
  	    $logmsg .= join("\n\t", @skipped) . "\n";
+@@ -970,7 +1002,7 @@
+ 		}
+ 		$state=3;
+ 	} elsif ($state == 3 and s/^Author:\s+//) {
+-		$author_tz = "UTC";
++		$author_tz = "Asia/Tokyo";
+ 		s/\s+$//;
+ 		if (/^(.*?)\s+<(.*)>/) {
+ 		    ($author_name, $author_email) = ($1, $2);
+@@ -979,7 +1011,8 @@
+ 			$author_email = $conv_author_email{$_};
+ 			$author_tz = $conv_author_tz{$_} if ($conv_author_tz{$_});
+ 		} else {
+-		    $author_name = $author_email = $_;
++			$author_name = $_;
++			$author_email = $_ . '@';
+ 		}
+ 		$state = 4;
+ 	} elsif ($state == 4 and s/^Branch:\s+//) {
