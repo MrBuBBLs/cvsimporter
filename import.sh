@@ -53,21 +53,8 @@ import() {
 
     log_info "Start importing $CVS_MODULE"
 
-    log_info "Updating cvsps cache for $CVS_MODULE ..."
-    cvsps -u --cvs-direct --root $CVS_ROOT $CVS_MODULE 2>&1
-    retval=$?
-    if [ $retval -eq 0 ]; then
-        log_info "Updated cvsps cache for $CVS_MODULE"
-    else
-        log_error "Failed to Update cvsps cache for $CVS_MODULE"
-        return 1
-    fi
-
-    cvsps -q --cvs-direct --root $CVS_ROOT $CVS_MODULE 2>/dev/null | grep '^Author: ' | sort -u |
-        perl -pne 's|^Author: (.+)$|$1=$1 <$1\@> Asia/Tokyo|' > $AUTHORS_FILE
-
     log_info "Running git-cvsimport for $CVS_MODULE ..."
-    git cvsimport -v -i -R -A $AUTHORS_FILE -d $CVS_ROOT -C $ROOT_DIR/$CVS_MODULE $CVS_MODULE 2>&1
+    git cvsimport.orca -p -u -v -i -R -A $AUTHORS_FILE -d $CVS_ROOT -C $ROOT_DIR/$CVS_MODULE $CVS_MODULE 2>&1
     retval=$?
     if [ $retval -eq 0 ]; then
         log_info "Finished git-cvsimport for $CVS_MODULE"
