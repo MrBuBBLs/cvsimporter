@@ -3,7 +3,8 @@
 ROOT_DIR=$(cd $(dirname $0)/.. && pwd)
 CVS_MODULE=$1
 CVS_ROOT=:ext:anoncvs@cvs.orca.med.or.jp:/cvs
-AUTHORS_FILE=$ROOT_DIR/authors.$CVS_MODULE.txt
+# Do not use author file, conversion is forced to: name <name@> in git-cvsimport.orca
+#AUTHORS_FILE=$ROOT_DIR/authors.$CVS_MODULE.txt
 LOG_DIR=$ROOT_DIR/logs
 LOG_FILE=$LOG_DIR/import.$CVS_MODULE.$(date '+%Y-%m-%d--%H-%M-%S').log
 SYSLOG_TAG=cvsimporter
@@ -54,7 +55,7 @@ import() {
     log_info "Start importing $CVS_MODULE"
 
     log_info "Running git-cvsimport for $CVS_MODULE ..."
-    git cvsimport.orca -p -u -v -i -R -A $AUTHORS_FILE -d $CVS_ROOT -C $ROOT_DIR/$CVS_MODULE $CVS_MODULE 2>&1
+    git cvsimport.orca -p -u -v -i -R -d $CVS_ROOT -C $ROOT_DIR/$CVS_MODULE $CVS_MODULE 2>&1
     retval=$?
     if [ $retval -eq 0 ]; then
         log_info "Finished git-cvsimport for $CVS_MODULE"
