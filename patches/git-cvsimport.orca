@@ -1012,7 +1012,7 @@ while (<CVS>) {
 			$author_tz = $conv_author_tz{$_} if ($conv_author_tz{$_});
 		} else {
 			$author_name = $_;
-			$author_email = $_ . '@';
+			$author_email = $_ . '@cvs.orca.med.or.jp';
 		}
 		$state = 4;
 	} elsif ($state == 4 and s/^Branch:\s+//) {

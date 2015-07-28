@@ -1,5 +1,5 @@
 --- /usr/lib/git-core/git-cvsimport	2015-01-14 04:46:33.000000000 +0900
-+++ /usr/lib/git-core/git-cvsimport.orca	2015-07-28 06:10:17.105526492 +0900
++++ /usr/lib/git-core/git-cvsimport.orca	2015-07-28 23:49:36.199083562 +0900
 @@ -28,6 +28,8 @@
  use POSIX qw(strftime tzset dup2 ENOENT);
  use IPC::Open2;
@@ -75,7 +75,7 @@
  		} else {
 -		    $author_name = $author_email = $_;
 +			$author_name = $_;
-+			$author_email = $_ . '@';
++			$author_email = $_ . '@cvs.orca.med.or.jp';
  		}
  		$state = 4;
  	} elsif ($state == 4 and s/^Branch:\s+//) {
