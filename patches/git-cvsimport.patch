@@ -1,5 +1,5 @@
---- /usr/lib/git-core/git-cvsimport	2015-01-14 04:46:33.000000000 +0900
-+++ /usr/lib/git-core/git-cvsimport.orca	2015-07-28 23:49:36.199083562 +0900
+--- /opt/git/libexec/git-core/git-cvsimport	2015-08-22 04:16:20.846596341 +0900
++++ /opt/git/libexec/git-core/git-cvsimport.orca	2015-08-23 05:24:37.323671367 +0900
 @@ -28,6 +28,8 @@
  use POSIX qw(strftime tzset dup2 ENOENT);
  use IPC::Open2;
