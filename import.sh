@@ -3,6 +3,8 @@
 ROOT_DIR=$(cd $(dirname $0)/.. && pwd)
 CVS_MODULE=$1
 CVS_ROOT=:ext:anoncvs@cvs.orca.med.or.jp:/cvs
+export CVS_RSH=ssh
+
 # Do not use author file, conversion is forced to: name <name@> in git-cvsimport.orca
 #AUTHORS_FILE=$ROOT_DIR/authors.$CVS_MODULE.txt
 LOG_DIR=$ROOT_DIR/logs
