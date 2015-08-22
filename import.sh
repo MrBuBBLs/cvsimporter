@@ -57,7 +57,7 @@ import() {
     log_info "Start importing $CVS_MODULE"
 
     log_info "Running git-cvsimport for $CVS_MODULE ..."
-    git cvsimport.orca -p -u -v -i -R -d $CVS_ROOT -C $ROOT_DIR/$CVS_MODULE $CVS_MODULE 2>&1
+    git cvsimport.orca -p -u -v -i -R -d $CVS_ROOT -C $ROOT_DIR/$CVS_MODULE -o master $CVS_MODULE 2>&1
     retval=$?
     if [ $retval -eq 0 ]; then
         log_info "Finished git-cvsimport for $CVS_MODULE"
@@ -67,10 +67,6 @@ import() {
     fi
 
     log_info "Pushing to remote for $CVS_MODULE ..."
-    git --git-dir=$ROOT_DIR/$CVS_MODULE/.git --work-tree=$ROOT_DIR/$CVS_MODULE reset --hard HEAD
-    git --git-dir=$ROOT_DIR/$CVS_MODULE/.git --work-tree=$ROOT_DIR/$CVS_MODULE clean -fdx .
-    git --git-dir=$ROOT_DIR/$CVS_MODULE/.git --work-tree=$ROOT_DIR/$CVS_MODULE checkout master
-    git --git-dir=$ROOT_DIR/$CVS_MODULE/.git --work-tree=$ROOT_DIR/$CVS_MODULE rebase origin
     git --git-dir=$ROOT_DIR/$CVS_MODULE/.git --work-tree=$ROOT_DIR/$CVS_MODULE push --mirror origin
     if [ $retval -eq 0 ]; then
         log_info "Pushed to remote for $CVS_MODULE"
